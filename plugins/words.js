@@ -5,10 +5,10 @@ const WordsApiMixin = {
   methods: {
     async getRandomWord() {
       return await axios
-        .get(process.env.WORDS_API_URL, {
+        .get(process.env.wordsApiUrl, {
           headers: {
-            'x-rapidapi-host': process.env.WORDS_API_HOST,
-            'x-rapidapi-key': process.env.WORDS_API_KEY,
+            'x-rapidapi-host': process.env.wordsApiHost,
+            'x-rapidapi-key': process.env.wordsApiKey,
           },
         })
         .then(function (response) {

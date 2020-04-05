@@ -105,6 +105,7 @@ export default {
     },
   },
   async beforeMount() {
+    console.log(process.env.wordsApiUrl)
     while (this.scrambledLetters.length < 22) {
       let word = await this.getRandomWord()
       if (!word.includes(' ')) {

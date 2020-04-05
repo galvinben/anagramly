@@ -1,3 +1,5 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+
 export default {
   head: {
     title: 'Anagramly',
@@ -33,6 +35,10 @@ export default {
       },
     ],
     '@nuxtjs/axios',
-    '@nuxtjs/dotenv',
   ],
+  env: {
+    wordsApiKey: process.env.WORDS_API_KEY,
+    wordsApiHost: process.env.WORDS_API_HOST,
+    wordsApiUrl: process.env.WORDS_API_URL,
+  },
 }
