@@ -207,10 +207,10 @@ export default {
   position: absolute;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 700px) {
   .card {
     width: 80vw !important;
-    height: 90vh;
+    height: 80vh;
   }
   .question {
     flex-wrap: wrap;
