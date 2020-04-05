@@ -51,7 +51,7 @@ export default {
         eventLabel: 'wordLength',
         eventValue: this.wordLength,
       })
-      start = true
+      this.start = true
     },
   },
 }
