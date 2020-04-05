@@ -1,8 +1,12 @@
 <template>
   <div class="face-container">
     <transition name="slide-fade" mode="out-in">
-      <fa class="face" :key="emotion" :icon="['far', emotion]" />
-      <Loading v-if="typing && !success" key="typing" />
+      <fa
+        class="face"
+        :class="faceClass"
+        :key="emotion"
+        :icon="['far', emotion]"
+      />
     </transition>
   </div>
 </template>
@@ -13,11 +17,11 @@ export default {
   components: {
     Loading,
   },
-  props: ['typed', 'answer', 'typing'],
+  props: ['word', 'win'],
   computed: {
     correctLetters() {
-      let answer = [...this.answer]
-      return this.typed.filter(function (letter) {
+      let answer = [...this.word.answer]
+      return this.word.result.filter(function (letter) {
         if (answer.includes(letter)) {
           answer.splice(answer.indexOf(letter), 1)
           return true
@@ -26,22 +30,27 @@ export default {
     },
     correctLettersPerc() {
       return (
-        (this.correctLetters / this.answer.length) * 30 +
-        (this.correctLetters / this.typed.length || 0) * 25
+        (this.correctLetters / this.word.answer.length) * 30 +
+        (this.correctLetters /
+          this.word.result.filter((letter) => letter != ' ' && letter != '')
+            .length || 0) *
+          25
       )
     },
     correctOrder() {
-      return this.typed.filter((letter, i) => this.answer[i] === letter).length
+      return this.word.result.filter(
+        (letter, i) => this.word.answer[i] === letter
+      ).length
     },
     correctOrderPerc() {
-      return (this.correctOrder / this.answer.length) * 45
+      return (this.correctOrder / this.word.answer.length) * 45
     },
     score() {
       return this.correctLettersPerc + this.correctOrderPerc
     },
     emotion() {
-      let typed = this.typed.length
-      let answer = this.answer.length
+      let typed = this.word.result.length
+      let answer = this.word.answer.length
       let score = this.score
       if (score < 0) return 'dizzy'
       if (score === 0) return 'tired'
@@ -60,7 +69,10 @@ export default {
       if (score > 0) return 'angry'
     },
     success() {
-      return this.typed === this.answer
+      return this.word.result === this.word.answer
+    },
+    faceClass() {
+      return this.win ? 'super-celebrate' : this.word.win ? 'celebrate' : ''
     },
   },
 }
@@ -74,6 +86,7 @@ export default {
 
 .face {
   font-size: 30px;
+  color: rgba(70, 63, 36, 0.781);
 }
 
 .slide-fade-enter-active,
@@ -90,5 +103,53 @@ export default {
 
 .slide-fade-leave-to {
   transform: translateX(40px);
+}
+
+@media screen and (max-width: 700px) {
+  .face-container {
+    margin-top: -2em;
+  }
+  .slide-fade-enter {
+    transform: translateY(-40px);
+  }
+
+  .slide-fade-leave-to {
+    transform: translateY(40px);
+  }
+}
+
+.celebrate {
+  animation: celebrate 1s forwards;
+}
+
+@keyframes celebrate {
+  50% {
+    transform: scale(1.5, 1.5);
+    color: rgba(124, 41, 115, 0.781);
+  }
+}
+
+.super-celebrate {
+  animation: super-celebrate 5s infinite forwards;
+}
+
+@keyframes super-celebrate {
+  5% {
+    transform: scale(1.5, 1.5);
+    color: rgba(124, 41, 115, 0.781);
+  }
+  10% {
+    transform: scale(1, 1);
+    transform: rotate(0);
+    color: rgba(124, 41, 115, 0.781);
+  }
+  30% {
+    transform: rotate(360deg);
+    color: rgba(124, 41, 115, 0.781);
+  }
+  100% {
+    transform: rotate(360deg);
+    color: rgba(70, 63, 36, 0.781);
+  }
 }
 </style>

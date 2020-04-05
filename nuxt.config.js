@@ -14,6 +14,10 @@ export default {
         href:
           'https://fonts.googleapis.com/css?family=Inconsolata&display=swap',
       },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Cormorant&display=swap',
+      },
     ],
   },
   plugins: ['@/plugins/words'],

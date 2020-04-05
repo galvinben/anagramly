@@ -14,6 +14,7 @@
 
 <style scoped>
 .loading {
+  position: absolute;
   width: 36px;
   height: 10px;
   display: flex;

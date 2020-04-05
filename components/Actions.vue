@@ -2,27 +2,38 @@
   <div class="actions">
     <div
       class="actions-button"
-      :class="loading ? 'actions-disabled' : 'actions-enabled'"
+      :class="loading || win ? 'actions-disabled' : 'actions-enabled'"
       @click="scramble()"
     >
       <fa :icon="['fas', 'retweet']" />
     </div>
     <div
       class="actions-button"
-      :class="loading ? 'actions-disabled' : 'actions-enabled'"
+      :class="loading || win ? 'actions-disabled' : 'actions-enabled'"
       @click="clear()"
     >
       <fa :icon="['fas', 'fire']" />
     </div>
-    <div class="actions-button actions-disabled">
-      <fa :icon="['fas', 'star']" />
+    <div
+      class="actions-button"
+      :class="loading || win ? 'actions-disabled' : 'actions-enabled'"
+      @click="reset()"
+    >
+      <fa :icon="['fas', 'door-open']" />
+    </div>
+    <div
+      class="actions-button"
+      :class="win ? 'actions-enabled' : 'actions-disabled'"
+      @click="reset()"
+    >
+      <fa :class="win ? 'celebrate' : ''" :icon="['fas', 'star']" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['loading'],
+  props: ['loading', 'win'],
   methods: {
     scramble() {
       this.$emit('scramble')
@@ -30,8 +41,11 @@ export default {
     clear() {
       this.$emit('clear')
     },
-    win() {
-      this.$emit('win')
+    reset() {
+      this.$emit('reset')
+    },
+    finish() {
+      this.$emit('finish')
     },
   },
 }
@@ -51,8 +65,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
+  font-size: 1.5rem;
 }
 
 .actions-enabled {
@@ -97,6 +112,18 @@ export default {
   }
   .actions-button {
     width: 30%;
+  }
+}
+
+.celebrate {
+  color: rgba(36, 129, 192, 0.747);
+  animation: celebrate 1s forwards;
+  animation-delay: 2s;
+}
+
+@keyframes celebrate {
+  50% {
+    transform: scale(1.5, 1.5);
   }
 }
 </style>

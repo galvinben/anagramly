@@ -1,27 +1,29 @@
 <template>
-  <div class="page">
-    <Loading v-if="loading" />
-    <div v-if="!loading" class="card" :style="cardWidth" title="Anagramly">
-      <div class="question">
-        <div v-for="(letter, i) in sortedWords" :key="i">
-          <div :class="letterTypedClass(letter)">{{ letter.letter }}</div>
-        </div>
-      </div>
-      <div class="answers">
-        <div v-for="word in answers" :key="word.id">
-          <div class="answer">
-            <Answer :word="word" />
-            <Face
-              v-if="!loading"
-              :typed="word.result.toLowerCase().split('')"
-              :answer="word.answer.toLowerCase().split('')"
-              :typing="word.typing"
-            />
+  <div>
+    <transition name="slide-fade" mode="out-in">
+      <Loading v-if="loading" />
+      <div v-if="!loading" class="card" :style="cardWidth" title="Anagramly">
+        <div class="question">
+          <div v-for="(letter, i) in sortedWords" :key="i">
+            <h2 :class="letterTypedClass(letter)">{{ letter.letter }}</h2>
           </div>
         </div>
-      </div>
-      <Actions @scramble="scramble" @clear="clear" :loading="loading" />
-    </div>
+        <div class="answers">
+          <div v-for="word in answers" :key="word.id">
+            <div class="answer">
+              <Answer :word="word" />
+              <Face v-if="!loading" :word="word" :win="win" />
+            </div>
+          </div>
+        </div>
+        <Actions
+          @scramble="scramble"
+          @clear="clear"
+          @reset="reset"
+          :loading="loading"
+          :win="win"
+        /></div
+    ></transition>
   </div>
 </template>
 
@@ -32,6 +34,7 @@ import Answer from '@/components/Answer'
 import Actions from '@/components/Actions'
 
 export default {
+  props: ['difficulty', 'wordLength'],
   components: {
     Face,
     Loading,
@@ -42,7 +45,7 @@ export default {
     scrambledLetters: [],
     words: [],
     answers: [],
-    loading: true,
+    loading: false,
   }),
   computed: {
     lettersTyped() {
@@ -66,7 +69,12 @@ export default {
       })
     },
     cardWidth() {
-      return `width: ${this.scrambledLetters.length * 30}px`
+      if (window.innerWidth > 700) {
+        return `width: ${this.scrambledLetters.length * 1.9}rem`
+      } else return 'width: 80vw'
+    },
+    win() {
+      return this.answers.filter((answer) => !answer.win).length === 0
     },
   },
   methods: {
@@ -87,30 +95,44 @@ export default {
       this.answers = this.words.map((word, index) => {
         return {
           id: index + 1,
-          answer: word,
-          result: '',
+          answer: word.word.toLowerCase().split(''),
+          locks: word.word.split('').map((letter) => {
+            return { letter: letter, locked: false }
+          }),
+          result: [],
           typing: false,
-          width: word.length * 20 + 32,
+          win: false,
+          definition: word.definition,
         }
       })
     },
     clear() {
       this.answers = this.answers.map((answer) => {
-        answer.result = ''
+        if (answer.result.join('') !== answer.answer.join('')) {
+          answer.result = []
+        }
         return answer
       })
+    },
+    reset() {
+      this.$emit('reset')
     },
     letterTypedClass(letter) {
       return letter.typed ? 'letter-crossed' : ''
     },
   },
   async beforeMount() {
-    console.log(process.env.wordsApiUrl)
-    while (this.scrambledLetters.length < 22) {
-      let word = await this.getRandomWord()
-      if (!word.includes(' ')) {
-        this.words.push(word)
-        this.scrambledLetters.push(...word)
+    this.loading = true
+    while (this.scrambledLetters.length < this.difficulty * 5) {
+      let data = await this.getRandomWord(this.wordLength)
+      if (!data.word.includes(' ')) {
+        this.words.push({
+          word: data.word,
+          definition: data.results
+            ? data.results[0].definition
+            : 'No definition found...',
+        })
+        this.scrambledLetters.push(...data.word)
       }
     }
     this.loading = false
@@ -134,16 +156,7 @@ export default {
 </script>
 
 <style scoped>
-.page {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(212, 178, 85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .card {
-  cursor: default;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,11 +165,8 @@ export default {
   border-radius: 10px;
   box-shadow: 2px 3px rgba(0, 0, 0, 0.3);
   padding: 25px;
-  width: 700px;
-  height: 300px;
 }
 .question {
-  font-size: 3em;
   letter-spacing: 4px;
   text-transform: uppercase;
   font-weight: 500;
@@ -165,12 +175,15 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .answers {
+  margin: 5rem 0;
   display: flex;
   flex-direction: row;
-  height: 100px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .answer {
@@ -190,7 +203,7 @@ export default {
 }
 
 .letter-crossed {
-  color: rgb(172, 172, 172);
+  color: rgba(0, 0, 0, 0.123);
 }
 
 .shuffle-item {
@@ -207,21 +220,46 @@ export default {
   position: absolute;
 }
 
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.5s;
+}
+.slide-fade-enter, .slide-fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.slide-fade-enter {
+  transform: translateX(-1000px);
+}
+
+.slide-fade-leave-to {
+  transform: translateX(1000px);
+}
+
 @media screen and (max-width: 700px) {
   .card {
-    width: 80vw !important;
-    height: 80vh;
+    height: auto;
   }
-  .question {
-    flex-wrap: wrap;
-    flex-basis: 3em;
-    flex-shrink: 1;
-  }
+
   .answers {
     flex-direction: column;
-    flex-grow: 1;
     align-items: center;
     justify-content: center;
+    margin-left: 2rem;
+  }
+
+  .answer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .slide-fade-enter {
+    transform: translateX(-600px);
+  }
+
+  .slide-fade-leave-to {
+    transform: translateX(600px);
   }
 }
 </style>

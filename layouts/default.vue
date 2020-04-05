@@ -5,10 +5,24 @@
 </template>
 
 <style>
+html {
+  font-size: 13px;
+}
 * {
   margin: 0;
   padding: 0;
   font-family: 'Inconsolata', monospace;
+  font-size: 1rem;
+}
+
+h1 {
+  font-size: 4rem;
+}
+h2 {
+  font-size: 3rem;
+}
+h3 {
+  font-size: 2rem;
 }
 
 .container {
@@ -16,5 +30,13 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100vw;
+  background-color: rgb(212, 178, 85);
+}
+
+@media screen and (max-width: 700px) {
+  html {
+    font-size: 10px;
+  }
 }
 </style>

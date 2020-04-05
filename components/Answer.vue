@@ -1,43 +1,229 @@
 <template>
-  <input
-    autocomplete="off"
-    :id="word.id"
-    v-model="word.result"
-    class="answers-input"
-    :style="style"
-    :disabled="correct"
-    :maxlength="word.answer.length"
-  />
+  <div class="answer-wrap">
+    <div class="definition" v-if="showDefinition">{{ word.definition }}</div>
+    <div
+      :style="style"
+      class="answer-input"
+      :class="complete ? 'input-complete' : ''"
+      @click="showDefinition = complete ? !showDefinition : false"
+    >
+      <div v-for="(letter, i) in word.answer" :key="i">
+        <input
+          class="answer-letter"
+          :class="complete ? 'letter-complete' : ''"
+          maxlength="1"
+          v-model="word.result[i]"
+          :disabled="word.locks[i].locked || complete"
+          @keyup="onKeyUp"
+          @keydown="onKeyDown"
+          @focus="onFocus"
+          @blur="onBlur"
+        />
+        <div class="_" />
+      </div>
+    </div>
+    <div class="locks">
+      <div
+        class="lock"
+        v-for="(lock, i) in word.locks"
+        :key="i"
+        @click="lock.locked = complete ? lock.locked : !lock.locked"
+      >
+        <fa
+          class="lock-hover unlock-icon"
+          v-if="!lock.locked && !complete"
+          :icon="['fas', 'unlock-alt']"
+        />
+        <fa
+          :class="complete ? 'unlock-icon' : 'lock-hover lock-icon'"
+          v-if="lock.locked || complete"
+          :icon="['fas', 'lock']"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   props: ['word'],
+  data: () => ({
+    showDefinition: false,
+  }),
   computed: {
-    style() {
-      return `width: ${this.word.width}px`
+    width() {
+      return this.word.answer.length * (window.innerWidth > 700 ? 1.31 : 1.4)
     },
-    correct() {
-      return this.word.result === this.word.answer
+    style() {
+      return `width: ${this.width}rem`
+    },
+    complete() {
+      return this.word.result.join('') === this.word.answer.join('')
+    },
+  },
+  methods: {
+    focusPreviousNotDisabled(element) {
+      if (element.parentElement.previousElementSibling) {
+        if (element.disabled === true) {
+          this.focusPreviousNotDisabled(
+            element.parentElement.previousElementSibling.firstElementChild
+          )
+        }
+      }
+      element.focus()
+    },
+    focusNextNotDisabled(element) {
+      if (element.parentElement.nextElementSibling) {
+        if (element.disabled === true) {
+          this.focusNextNotDisabled(
+            element.parentElement.nextElementSibling.firstElementChild
+          )
+        }
+      }
+      element.focus()
+    },
+    onKeyUp(event) {
+      if (event.key.length === 1 || event.key === 'ArrowRight') {
+        if (event.target.parentElement.nextElementSibling) {
+          this.focusNextNotDisabled(
+            event.target.parentElement.nextElementSibling.firstElementChild
+          )
+          return
+        }
+      }
+      if (event.key === 'ArrowLeft') {
+        if (event.target.parentElement.previousElementSibling) {
+          this.focusPreviousNotDisabled(
+            event.target.parentElement.previousElementSibling.firstElementChild
+          )
+        }
+        return
+      }
+    },
+    onKeyDown(event) {
+      if (event.key.length === 1) {
+        event.target.value = ''
+      }
+      if (
+        event.key === 'Backspace' &&
+        event.target.parentElement.previousElementSibling &&
+        (event.target.value === '' || event.target.value === ' ')
+      ) {
+        this.focusPreviousNotDisabled(
+          event.target.parentElement.previousElementSibling.firstElementChild
+        )
+        return
+      }
+    },
+    onFocus(event) {
+      event.target.nextElementSibling.style.background = 'rgba(0, 0, 0, 0.7)'
+    },
+    onBlur(event) {
+      event.target.nextElementSibling.style.background = 'rgba(0, 0, 0, 0.3)'
+    },
+  },
+  watch: {
+    complete: function (newVal) {
+      if (newVal === true) this.word.win = true
     },
   },
 }
 </script>
 
 <style scoped>
-.answers-input {
+.answer-wrap {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.answer-input {
+  margin: 10px;
+  height: 4rem;
+  border-radius: 5px;
+  box-shadow: inset 2px 3px 2px rgba(0, 0, 0, 0.2),
+    inset -1px -1px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 15px;
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.answer-letter {
+  height: 3rem;
+  width: 1.4rem;
   letter-spacing: 4px;
   text-transform: uppercase;
   font-weight: 500;
-  font-size: 2em;
-  margin: 10px;
-  height: 50px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: inset 2px 3px 2px rgba(0, 0, 0, 0.2),
-    inset -1px -1px 4px rgba(0, 0, 0, 0.1);
+  font-size: 2rem;
+  overflow: hidden;
   outline: none;
-  padding: 15px;
-  box-sizing: border-box;
+  border: none;
+  caret-color: transparent;
+  background: rgba(0, 0, 0, 0);
+}
+
+.answer-letter:disabled {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+._ {
+  height: 2px;
+  border-radius: 1px;
+  width: 1.2rem;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.locks {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.lock {
+  width: 1.4rem;
+}
+
+.lock-icon {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.unlock-icon {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.lock-hover:hover {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.input-complete:hover,
+.letter-complete:hover {
+  cursor: pointer;
+}
+
+.input-complete:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.definition {
+  position: absolute;
+  width: 12em;
+  background: rgba(238, 238, 238, 0.9);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  margin-top: 65px;
+  margin-left: -3em;
+  animation: fade 1s both;
+  opacity: 0;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fade {
+  100% {
+    opacity: 1;
+  }
 }
 </style>
