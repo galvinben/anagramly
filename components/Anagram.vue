@@ -171,6 +171,7 @@ export default {
   border-radius: 10px;
   box-shadow: 2px 3px rgba(0, 0, 0, 0.3);
   padding: 25px;
+  min-width: 400px;
 }
 .question {
   letter-spacing: 4px;
@@ -245,6 +246,7 @@ export default {
 @media screen and (max-width: 700px) {
   .card {
     height: auto;
+    min-width: 80vw;
   }
 
   .answers {
