@@ -140,6 +140,12 @@ export default {
     this.calculateAnswers()
   },
   mounted() {
+    this.$ga.event({
+      eventCategory: 'game',
+      eventAction: 'new',
+      eventLabel: 'level',
+      eventValue: 'win',
+    })
     let typeTimeout
     for (let i in this.answers) {
       document.getElementById(this.answers[i].id).onkeydown = () => {

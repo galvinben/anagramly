@@ -20,6 +20,14 @@ export default {
       },
     ],
   },
+  buildModules: [
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-162796226-1',
+      },
+    ],
+  ],
   plugins: ['@/plugins/words'],
   modules: [
     [

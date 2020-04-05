@@ -9,7 +9,7 @@
         <Difficulty :difficulty.sync="wordLength" />
         Total Length:
         <Difficulty :difficulty.sync="difficulty" />
-        <div class="button" @click="start = true">Start</div>
+        <div class="button" @click="begin()">Start</div>
       </div>
       <Anagram
         v-if="start"
@@ -37,6 +37,21 @@ export default {
   methods: {
     reset() {
       this.start = false
+    },
+    begin() {
+      this.$ga.event({
+        eventCategory: 'difficulty',
+        eventAction: this.difficulty,
+        eventLabel: 'difficulty',
+        eventValue: this.difficulty,
+      })
+      this.$ga.event({
+        eventCategory: 'wordLength',
+        eventAction: this.wordLength,
+        eventLabel: 'wordLength',
+        eventValue: this.wordLength,
+      })
+      start = true
     },
   },
 }

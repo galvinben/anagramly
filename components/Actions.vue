@@ -36,16 +36,40 @@ export default {
   props: ['loading', 'win'],
   methods: {
     scramble() {
+      this.$ga.event({
+        eventCategory: 'game',
+        eventAction: 'scramble',
+        eventLabel: 'game',
+        eventValue: 'scramble',
+      })
       this.$emit('scramble')
     },
     clear() {
+      this.$ga.event({
+        eventCategory: 'game',
+        eventAction: 'clear',
+        eventLabel: 'game',
+        eventValue: 'clear',
+      })
       this.$emit('clear')
     },
     reset() {
+      this.$ga.event({
+        eventCategory: 'game',
+        eventAction: 'quit',
+        eventLabel: 'game',
+        eventValue: 'quit',
+      })
       this.$emit('reset')
     },
     finish() {
       if (this.win) {
+        this.$ga.event({
+          eventCategory: 'game',
+          eventAction: 'win',
+          eventLabel: 'game',
+          eventValue: 'win',
+        })
         this.reset()
         this.$emit('finish')
       }
