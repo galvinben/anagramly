@@ -43,7 +43,6 @@ export default {
   width: 80%;
   flex-direction: row;
   justify-content: space-evenly;
-  margin-top: 40px;
 }
 
 .actions-button {
@@ -61,6 +60,7 @@ export default {
 }
 
 .actions-enabled:hover {
+  cursor: pointer;
   animation: hover 0.3s forwards;
 }
 
@@ -89,5 +89,14 @@ export default {
 .actions-disabled {
   color: rgba(0, 0, 0, 0.1);
   box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 800px) {
+  .actions {
+    width: 100%;
+  }
+  .actions-button {
+    width: 30%;
+  }
 }
 </style>

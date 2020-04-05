@@ -9,22 +9,15 @@
       </div>
       <div class="answers">
         <div v-for="word in answers" :key="word.id">
-          <Answer :word="word" />
-        </div>
-      </div>
-      <div class="statuses">
-        <div
-          v-for="word in answers"
-          :key="word.id"
-          class="statuses-face"
-          :style="'width: ' + word.width + 'px'"
-        >
-          <Face
-            v-if="!loading"
-            :typed="word.result.toLowerCase().split('')"
-            :answer="word.answer.toLowerCase().split('')"
-            :typing="word.typing"
-          />
+          <div class="answer">
+            <Answer :word="word" />
+            <Face
+              v-if="!loading"
+              :typed="word.result.toLowerCase().split('')"
+              :answer="word.answer.toLowerCase().split('')"
+              :typing="word.typing"
+            />
+          </div>
         </div>
       </div>
       <Actions @scramble="scramble" @clear="clear" :loading="loading" />
@@ -153,6 +146,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   background: white;
   border-radius: 10px;
   box-shadow: 2px 3px rgba(0, 0, 0, 0.3);
@@ -169,26 +163,23 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: row;
-  margin-bottom: 40px;
   justify-content: center;
 }
 
 .answers {
   display: flex;
   flex-direction: row;
-  height: 50px;
-  margin-bottom: 10px;
+  height: 100px;
 }
 
-.statuses {
+.answer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .statuses-face {
   height: 30px;
   display: flex;
-  margin: 10px;
   justify-content: center;
 }
 
@@ -213,5 +204,23 @@ export default {
 }
 .shuffle-leave-active {
   position: absolute;
+}
+
+@media screen and (max-width: 800px) {
+  .card {
+    width: 80vw !important;
+    height: 90vh;
+  }
+  .question {
+    flex-wrap: wrap;
+    flex-basis: 3em;
+    flex-shrink: 1;
+  }
+  .answers {
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>

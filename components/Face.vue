@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="face-container">
     <transition name="slide-fade" mode="out-in">
       <fa class="face" :key="emotion" :icon="['far', emotion]" />
       <Loading v-if="typing && !success" key="typing" />
@@ -67,6 +67,11 @@ export default {
 </script>
 
 <style scoped>
+.face-container {
+  display: flex;
+  justify-content: center;
+}
+
 .face {
   font-size: 30px;
 }
