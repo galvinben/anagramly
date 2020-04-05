@@ -24,7 +24,7 @@
     <div
       class="actions-button"
       :class="win ? 'actions-enabled' : 'actions-disabled'"
-      @click="reset()"
+      @click="finish()"
     >
       <fa :class="win ? 'celebrate' : ''" :icon="['fas', 'star']" />
     </div>
@@ -45,7 +45,10 @@ export default {
       this.$emit('reset')
     },
     finish() {
-      this.$emit('finish')
+      if (this.win) {
+        this.reset()
+        this.$emit('finish')
+      }
     },
   },
 }
