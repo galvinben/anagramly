@@ -18,8 +18,6 @@
         <div class="answers">
           <div v-for="word in answers" :key="word.id">
             <div class="answer">
-              {{ word.result }}
-              {{ word.answer }}
               <Answer
                 :word="word"
                 @focusPreviousNotDisabled="focusPreviousNotDisabled"

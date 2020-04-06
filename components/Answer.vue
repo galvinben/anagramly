@@ -1,6 +1,5 @@
 <template>
   <div class="answer-wrap">
-    {{ test }}
     <div class="definition" v-if="showDefinition">{{ word.definition }}</div>
     <div
       :style="style"
