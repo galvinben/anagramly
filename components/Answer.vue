@@ -50,6 +50,7 @@ export default {
   data: () => ({
     showDefinition: false,
     test: 'test',
+    event: 'test',
   }),
   computed: {
     width() {
@@ -66,6 +67,24 @@ export default {
   },
   methods: {
     onKeyUp(event) {
+      console.log(event)
+      if (
+        [
+          'CapsLock',
+          'Space',
+          'Enter',
+          'Escape',
+          'MetaRight',
+          'MetaLeft',
+          'ControlLeft',
+          'ControlRight',
+          'AltLeft',
+          'AltRight',
+        ].includes(event.code)
+      ) {
+        event.preventDefault()
+        return
+      }
       if (event.key === 'ArrowLeft') {
         if (event.target.parentElement.previousElementSibling) {
           this.$emit(
@@ -73,7 +92,6 @@ export default {
             event.target.parentElement.previousElementSibling.firstElementChild
           )
         }
-
         return
       }
       if (
@@ -91,12 +109,26 @@ export default {
     },
     onKeyDown(event) {
       if (
+        ['CapsLock', 'Space', 'Enter', 'Escape'].includes(event.code) ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.metaKey
+      ) {
+        event.preventDefault()
+        return
+      }
+      event.target.selectionStart = event.target.selectionEnd =
+        event.target.value.length
+      if (
         event.key !== 'Tab' &&
         event.key !== 'Backspace' &&
+        event.key !== 'ArrowLeft' &&
+        event.key !== 'ArrowRight' &&
         event.key !== 'Shift'
       ) {
         event.target.value = ''
       }
+
       if (
         event.key === 'Backspace' &&
         event.target.parentElement.previousElementSibling &&

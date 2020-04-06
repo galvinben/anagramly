@@ -220,6 +220,7 @@ export default {
     this.calculateAnswers()
   },
   mounted() {
+    console.log('👋 Hello! Enjoying Anagramly? Tell me at: www.bengalvin.co.uk')
     this.$ga.event({
       eventCategory: 'game',
       eventAction: 'new',
