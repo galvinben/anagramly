@@ -69,10 +69,6 @@ export default {
       if (score > 0) return 'angry'
     },
     success() {
-      this.$ga.event({
-        eventCategory: 'game',
-        eventAction: 'wordComplete',
-      })
       return (
         this.word.result.join('').toLowerCase() === this.word.answer.join('')
       )
@@ -85,7 +81,15 @@ export default {
         })
         return 'super-celebrate'
       }
-      return this.word.win ? 'celebrate' : ''
+      if (this.word.win) {
+        this.$ga.event({
+          eventCategory: 'game',
+          eventAction: 'wordComplete',
+        })
+
+        return 'celebrate'
+      }
+      return ''
     },
   },
 }
