@@ -114,4 +114,11 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(40px);
 }
+
+@media screen and (max-height: 800px) {
+  .wrapper {
+    width: 150px;
+    margin: 20px;
+  }
+}
 </style>

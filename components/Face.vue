@@ -22,7 +22,7 @@ export default {
     correctLetters() {
       let answer = [...this.word.answer]
       return this.word.result.filter(function (letter) {
-        if (answer.includes(letter)) {
+        if (answer.includes(letter.toLowerCase())) {
           answer.splice(answer.indexOf(letter), 1)
           return true
         }
@@ -39,7 +39,7 @@ export default {
     },
     correctOrder() {
       return this.word.result.filter(
-        (letter, i) => this.word.answer[i] === letter
+        (letter, i) => this.word.answer[i] === letter.toLowerCase()
       ).length
     },
     correctOrderPerc() {

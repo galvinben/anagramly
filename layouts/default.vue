@@ -33,10 +33,4 @@ h3 {
   width: 100vw;
   background-color: rgb(212, 178, 85);
 }
-
-@media screen and (max-width: 700px) {
-  html {
-    font-size: 10px;
-  }
-}
 </style>

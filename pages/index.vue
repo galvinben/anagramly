@@ -5,10 +5,16 @@
         <div class="line" />
         <div class="title">anagramly</div>
         <div class="line" />
-        Word Length:
-        <Difficulty :difficulty.sync="wordLength" />
-        Total Length:
-        <Difficulty :difficulty.sync="difficulty" />
+        <div class="levels">
+          <div class="level">
+            Word Length:
+            <Difficulty :difficulty.sync="wordLength" />
+          </div>
+          <div class="level">
+            Total Length:
+            <Difficulty :difficulty.sync="difficulty" />
+          </div>
+        </div>
         <div class="button" @click="begin()">Start</div>
       </div>
       <Anagram
@@ -66,7 +72,7 @@ export default {
   border-radius: 10px;
   box-shadow: 2px 3px rgba(0, 0, 0, 0.3);
   padding: 25px;
-  height: 500px;
+  height: auto;
   width: 500px;
 }
 
@@ -106,6 +112,13 @@ export default {
   animation: unhover 0.1s forwards;
 }
 
+.level {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
 @keyframes hover {
   100% {
     transform: translate(-1px, -2px);
@@ -143,7 +156,6 @@ export default {
 @media screen and (max-width: 700px) {
   .card {
     width: 80vw;
-    height: 60vh;
   }
 
   .slide-fade-enter {
@@ -152,6 +164,20 @@ export default {
 
   .slide-fade-leave-to {
     transform: translateX(600px);
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .card {
+    height: 70vh;
+  }
+
+  .levels {
+    display: flex;
+  }
+
+  .level {
+    flex-direction: column;
   }
 }
 </style>

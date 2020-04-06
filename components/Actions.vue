@@ -2,21 +2,27 @@
   <div class="actions">
     <div
       class="actions-button"
-      :class="loading || win ? 'actions-disabled' : 'actions-enabled'"
+      :class="
+        loading || win ? 'actions-disabled' : 'actions-enabled actions-scramble'
+      "
       @click="scramble()"
     >
       <fa :icon="['fas', 'retweet']" />
     </div>
     <div
       class="actions-button"
-      :class="loading || win ? 'actions-disabled' : 'actions-enabled'"
+      :class="
+        loading || win ? 'actions-disabled' : 'actions-enabled actions-clear'
+      "
       @click="clear()"
     >
       <fa :icon="['fas', 'fire']" />
     </div>
     <div
       class="actions-button"
-      :class="loading || win ? 'actions-disabled' : 'actions-enabled'"
+      :class="
+        loading || win ? 'actions-disabled' : 'actions-enabled actions-exit'
+      "
       @click="reset()"
     >
       <fa :icon="['fas', 'door-open']" />
@@ -87,7 +93,8 @@ export default {
 }
 
 .actions-button {
-  width: 120px;
+  width: auto;
+  min-width: 80px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -95,15 +102,45 @@ export default {
   color: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   font-size: 1.5rem;
+  margin: 0 10px;
 }
 
 .actions-enabled {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.actions-scramble:hover {
+  animation: scramble-glow 0.2s forwards, hover 0.2s forwards;
+}
+
+@keyframes scramble-glow {
+  100% {
+    color: rgba(66, 167, 45, 0.521);
+  }
+}
+
+.actions-clear:hover {
+  animation: clear-glow 0.2s forwards, hover 0.3s forwards;
+}
+
+@keyframes clear-glow {
+  100% {
+    color: rgba(167, 45, 45, 0.521);
+  }
+}
+
+.actions-exit:hover {
+  animation: exit-glow 0.2s forwards, hover 0.3s forwards;
+}
+
+@keyframes exit-glow {
+  100% {
+    color: rgba(167, 155, 45, 0.521);
+  }
+}
+
 .actions-enabled:hover {
   cursor: pointer;
-  animation: hover 0.3s forwards;
 }
 
 .actions-enabled:active {

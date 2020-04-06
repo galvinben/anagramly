@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="slide-fade" mode="out-in">
-      <Loading v-if="loading" />
+      <Loading class="loading" v-if="loading" />
       <div v-if="!loading" class="card" :style="cardWidth" title="Anagramly">
         <div class="question">
           <div v-for="(letter, i) in sortedWords" :key="i">
@@ -22,8 +22,9 @@
           @reset="reset"
           :loading="loading"
           :win="win"
-        /></div
-    ></transition>
+        />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -162,6 +163,10 @@ export default {
 </script>
 
 <style scoped>
+.loading {
+  margin-left: -18px;
+}
+
 .card {
   display: flex;
   flex-direction: column;
