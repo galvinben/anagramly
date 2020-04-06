@@ -23,7 +23,7 @@ export default {
       let answer = [...this.word.answer]
       return this.word.result.filter(function (letter) {
         if (answer.includes(letter.toLowerCase())) {
-          answer.splice(answer.indexOf(letter), 1)
+          answer.splice(answer.indexOf(letter.toLowerCase()), 1)
           return true
         }
       }).length
@@ -69,7 +69,9 @@ export default {
       if (score > 0) return 'angry'
     },
     success() {
-      return this.word.result === this.word.answer
+      return (
+        this.word.result.join('').toLowerCase() === this.word.answer.join('')
+      )
     },
     faceClass() {
       return this.win ? 'super-celebrate' : this.word.win ? 'celebrate' : ''

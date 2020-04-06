@@ -4,6 +4,7 @@ import axios from 'axios'
 const WordsApiMixin = {
   methods: {
     async getRandomWord(wordLength) {
+      return { word: 'asdas', results: [{ definition: 'asd' }] }
       let diffulty
       if (wordLength > 3) diffulty = `&lettersMin=${wordLength * 2}`
       else if (wordLength < 3) diffulty = `&lettersMax=${wordLength * 3}`

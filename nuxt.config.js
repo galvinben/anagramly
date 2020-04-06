@@ -20,7 +20,7 @@ export default {
       },
     ],
   },
-  plugins: ['@/plugins/words'],
+  plugins: ['@/plugins/words', '@/plugins/vue-touch'],
   modules: [
     [
       'nuxt-fontawesome',

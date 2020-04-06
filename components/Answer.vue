@@ -1,5 +1,6 @@
 <template>
   <div class="answer-wrap">
+    {{ test }}
     <div class="definition" v-if="showDefinition">{{ word.definition }}</div>
     <div
       :style="style"
@@ -49,6 +50,7 @@ export default {
   props: ['word'],
   data: () => ({
     showDefinition: false,
+    test: 'test',
   }),
   computed: {
     width() {
@@ -58,40 +60,21 @@ export default {
       return `width: ${this.width}rem`
     },
     complete() {
-      return this.word.result.join('') === this.word.answer.join('')
+      return (
+        this.word.result.join('').toLowerCase() === this.word.answer.join('')
+      )
     },
   },
   methods: {
-    focusPreviousNotDisabled(element) {
-      if (element.parentElement.previousElementSibling) {
-        if (element.disabled === true) {
-          this.focusPreviousNotDisabled(
-            element.parentElement.previousElementSibling.firstElementChild
-          )
-        }
-      }
-      element.focus()
-    },
-    focusNextNotDisabled(element) {
-      if (element.parentElement.nextElementSibling) {
-        if (element.disabled === true) {
-          this.focusNextNotDisabled(
-            element.parentElement.nextElementSibling.firstElementChild
-          )
-        }
-      }
-      element.focus()
-    },
     onKeyUp(event) {
-      // if (event.key.length === 1 || event.key === 'ArrowRight') {
-
-      // }
       if (event.key === 'ArrowLeft') {
         if (event.target.parentElement.previousElementSibling) {
-          this.focusPreviousNotDisabled(
+          this.$emit(
+            'focusPreviousNotDisabled',
             event.target.parentElement.previousElementSibling.firstElementChild
           )
         }
+
         return
       }
       if (
@@ -100,7 +83,8 @@ export default {
         event.key !== 'Backspace' &&
         event.key !== 'Shift'
       ) {
-        this.focusNextNotDisabled(
+        this.$emit(
+          'focusNextNotDisabled',
           event.target.parentElement.nextElementSibling.firstElementChild
         )
         return
@@ -119,7 +103,8 @@ export default {
         event.target.parentElement.previousElementSibling &&
         (event.target.value === '' || event.target.value === ' ')
       ) {
-        this.focusPreviousNotDisabled(
+        this.$emit(
+          'focusPreviousNotDisabled',
           event.target.parentElement.previousElementSibling.firstElementChild
         )
         return

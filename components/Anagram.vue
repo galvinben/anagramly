@@ -2,7 +2,14 @@
   <div>
     <transition name="slide-fade" mode="out-in">
       <Loading class="loading" v-if="loading" />
-      <div v-if="!loading" class="card" :style="cardWidth" title="Anagramly">
+      <div
+        v-touch:swipe.right="swipeRight"
+        v-touch:swipe.left="swipeLeft"
+        v-if="!loading"
+        class="card"
+        :style="cardWidth"
+        title="Anagramly"
+      >
         <div class="question">
           <div v-for="(letter, i) in sortedWords" :key="i">
             <h2 :class="letterTypedClass(letter)">{{ letter.letter }}</h2>
@@ -11,7 +18,13 @@
         <div class="answers">
           <div v-for="word in answers" :key="word.id">
             <div class="answer">
-              <Answer :word="word" />
+              {{ word.result }}
+              {{ word.answer }}
+              <Answer
+                :word="word"
+                @focusPreviousNotDisabled="focusPreviousNotDisabled"
+                @focusNextNotDisabled="focusNextNotDisabled"
+              />
               <Face v-if="!loading" :word="word" :win="win" />
             </div>
           </div>
@@ -47,6 +60,8 @@ export default {
     words: [],
     answers: [],
     loading: false,
+    setUp: false,
+    swiped: false,
   }),
   computed: {
     lettersTyped() {
@@ -109,7 +124,7 @@ export default {
     },
     clear() {
       this.answers = this.answers.map((answer) => {
-        if (answer.result.join('') !== answer.answer.join('')) {
+        if (answer.result.join('').toLowerCase() !== answer.answer.join('')) {
           answer.result = []
         }
         return answer
@@ -121,6 +136,72 @@ export default {
     letterTypedClass(letter) {
       return letter.typed ? 'letter-crossed' : ''
     },
+    swipeRight() {
+      if (
+        document.activeElement.parentElement &&
+        document.activeElement.parentElement.nextElementSibling
+      ) {
+        this.focusNextNotDisabled(
+          document.activeElement.parentElement.nextElementSibling
+            .firstElementChild
+        )
+      } else if (
+        document.activeElement.parentElement.parentElement.parentElement
+          .parentElement.parentElement.nextElementSibling
+      ) {
+        document.activeElement.parentElement.parentElement.parentElement.parentElement.parentElement.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.firstElementChild.firstElementChild.focus()
+      }
+    },
+    swipeLeft() {
+      if (
+        document.activeElement.parentElement &&
+        document.activeElement.parentElement.previousElementSibling
+      ) {
+        this.focusPreviousNotDisabled(
+          document.activeElement.parentElement.previousElementSibling
+            .firstElementChild
+        )
+      } else if (
+        document.activeElement.parentElement.parentElement.parentElement
+          .parentElement.parentElement.previousElementSibling
+      ) {
+        document.activeElement.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.firstElementChild.firstElementChild.firstElementChild.lastElementChild.firstElementChild.focus()
+      }
+    },
+    focusPreviousNotDisabled(element) {
+      if (
+        element.parentElement &&
+        element.parentElement.previousElementSibling
+      ) {
+        if (element.disabled === true) {
+          this.focusPreviousNotDisabled(
+            element.parentElement.previousElementSibling.firstElementChild
+          )
+        }
+      }
+      element.focus()
+    },
+    focusNextNotDisabled(element) {
+      this.test = element.parentElement.nextElementSibling
+      if (element.parentElement && element.parentElement.nextElementSibling) {
+        if (element.disabled === true) {
+          this.focusNextNotDisabled(
+            element.parentElement.nextElementSibling.firstElementChild
+          )
+        }
+      }
+      element.focus()
+    },
+  },
+  updated() {
+    if (
+      !this.loading &&
+      !this.setUp &&
+      document.getElementsByTagName('input').length
+    ) {
+      this.setUp = true
+      document.getElementsByTagName('input')[0].focus()
+    }
   },
   async beforeMount() {
     this.loading = true
@@ -255,7 +336,9 @@ export default {
   }
 
   .answers {
-    flex-direction: column;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin-left: 2rem;
@@ -265,6 +348,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 0 2rem;
   }
 
   .slide-fade-enter {
