@@ -77,7 +77,7 @@ export default {
           'ControlRight',
           'AltLeft',
           'AltRight',
-        ].includes(event.code)
+        ].includes(event.key)
       ) {
         event.preventDefault()
         return
@@ -95,7 +95,8 @@ export default {
         event.target.parentElement.nextElementSibling &&
         event.key !== 'Tab' &&
         event.key !== 'Backspace' &&
-        event.key !== 'Shift'
+        event.key !== 'Shift' &&
+        event.target.value !== ''
       ) {
         this.$emit(
           'focusNextNotDisabled',
@@ -121,7 +122,8 @@ export default {
         event.key !== 'Backspace' &&
         event.key !== 'ArrowLeft' &&
         event.key !== 'ArrowRight' &&
-        event.key !== 'Shift'
+        event.key !== 'Shift' &&
+        event.which === '229'
       ) {
         event.target.value = ''
       }
@@ -135,6 +137,9 @@ export default {
           'focusPreviousNotDisabled',
           event.target.parentElement.previousElementSibling.firstElementChild
         )
+        return
+      }
+      if (event.code === 'Backspace') {
         return
       }
     },
