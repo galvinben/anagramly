@@ -163,7 +163,8 @@ export default {
     width: 100%;
   }
   .actions-button {
-    width: 30%;
+    min-width: 70px;
+    margin: 0 2px;
   }
 }
 
