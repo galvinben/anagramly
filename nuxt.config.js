@@ -20,14 +20,6 @@ export default {
       },
     ],
   },
-  buildModules: [
-    [
-      '@nuxtjs/google-analytics',
-      {
-        id: 'UA-162796226-1',
-      },
-    ],
-  ],
   plugins: ['@/plugins/words'],
   modules: [
     [
@@ -47,6 +39,14 @@ export default {
       },
     ],
     '@nuxtjs/axios',
+  ],
+  buildModules: [
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: process.env.ANALYTICS_ID,
+      },
+    ],
   ],
   env: {
     wordsApiKey: process.env.WORDS_API_KEY,

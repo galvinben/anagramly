@@ -83,14 +83,9 @@ export default {
       element.focus()
     },
     onKeyUp(event) {
-      if (event.key.length === 1 || event.key === 'ArrowRight') {
-        if (event.target.parentElement.nextElementSibling) {
-          this.focusNextNotDisabled(
-            event.target.parentElement.nextElementSibling.firstElementChild
-          )
-          return
-        }
-      }
+      // if (event.key.length === 1 || event.key === 'ArrowRight') {
+
+      // }
       if (event.key === 'ArrowLeft') {
         if (event.target.parentElement.previousElementSibling) {
           this.focusPreviousNotDisabled(
@@ -99,9 +94,24 @@ export default {
         }
         return
       }
+      if (
+        event.target.parentElement.nextElementSibling &&
+        event.key !== 'Tab' &&
+        event.key !== 'Backspace' &&
+        event.key !== 'Shift'
+      ) {
+        this.focusNextNotDisabled(
+          event.target.parentElement.nextElementSibling.firstElementChild
+        )
+        return
+      }
     },
     onKeyDown(event) {
-      if (event.key.length === 1) {
+      if (
+        event.key !== 'Tab' &&
+        event.key !== 'Backspace' &&
+        event.key !== 'Shift'
+      ) {
         event.target.value = ''
       }
       if (
