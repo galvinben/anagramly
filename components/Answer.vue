@@ -27,7 +27,7 @@
         class="lock"
         v-for="(lock, i) in word.locks"
         :key="i"
-        @click="lock.locked = complete ? lock.locked : !lock.locked"
+        @click="lock.locked ? unlock : lock"
       >
         <fa
           class="lock-hover unlock-icon"
@@ -114,6 +114,24 @@ export default {
     },
     onBlur(event) {
       event.target.nextElementSibling.style.background = 'rgba(0, 0, 0, 0.3)'
+    },
+    lock(lock) {
+      if (!this.complete) {
+        this.$ga.event({
+          eventCategory: 'game',
+          eventAction: 'lock',
+        })
+        lock.locked = true
+      }
+    },
+    unlock(lock) {
+      if (!this.complete) {
+        this.$ga.event({
+          eventCategory: 'game',
+          eventAction: 'unlock',
+        })
+        lock.locked = false
+      }
     },
   },
   watch: {
