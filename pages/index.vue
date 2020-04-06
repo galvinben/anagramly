@@ -48,14 +48,10 @@ export default {
       this.$ga.event({
         eventCategory: 'difficulty',
         eventAction: this.difficulty,
-        eventLabel: 'difficulty',
-        eventValue: this.difficulty,
       })
       this.$ga.event({
         eventCategory: 'wordLength',
         eventAction: this.wordLength,
-        eventLabel: 'wordLength',
-        eventValue: this.wordLength,
       })
       this.start = true
     },

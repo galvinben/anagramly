@@ -223,8 +223,6 @@ export default {
     this.$ga.event({
       eventCategory: 'game',
       eventAction: 'new',
-      eventLabel: 'level',
-      eventValue: 'win',
     })
     let typeTimeout
     for (let i in this.answers) {

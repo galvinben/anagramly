@@ -45,8 +45,6 @@ export default {
       this.$ga.event({
         eventCategory: 'game',
         eventAction: 'scramble',
-        eventLabel: 'game',
-        eventValue: 'scramble',
       })
       this.$emit('scramble')
     },
@@ -54,8 +52,6 @@ export default {
       this.$ga.event({
         eventCategory: 'game',
         eventAction: 'clear',
-        eventLabel: 'game',
-        eventValue: 'clear',
       })
       this.$emit('clear')
     },
@@ -63,8 +59,6 @@ export default {
       this.$ga.event({
         eventCategory: 'game',
         eventAction: 'quit',
-        eventLabel: 'game',
-        eventValue: 'quit',
       })
       this.$emit('reset')
     },
