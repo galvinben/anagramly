@@ -64,12 +64,6 @@ export default {
     },
     finish() {
       if (this.win) {
-        this.$ga.event({
-          eventCategory: 'game',
-          eventAction: 'win',
-          eventLabel: 'game',
-          eventValue: 'win',
-        })
         this.reset()
         this.$emit('finish')
       }
