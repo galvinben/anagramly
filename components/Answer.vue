@@ -49,8 +49,6 @@ export default {
   props: ['word'],
   data: () => ({
     showDefinition: false,
-    test: 'test',
-    event: 'test',
   }),
   computed: {
     width() {
@@ -67,7 +65,6 @@ export default {
   },
   methods: {
     onKeyUp(event) {
-      console.log(event)
       if (
         [
           'CapsLock',
@@ -108,6 +105,8 @@ export default {
       }
     },
     onKeyDown(event) {
+      event.target.selectionStart = event.target.selectionEnd =
+        event.target.value.length
       if (
         ['CapsLock', 'Space', 'Enter', 'Escape'].includes(event.code) ||
         event.ctrlKey ||
@@ -117,8 +116,6 @@ export default {
         event.preventDefault()
         return
       }
-      event.target.selectionStart = event.target.selectionEnd =
-        event.target.value.length
       if (
         event.key !== 'Tab' &&
         event.key !== 'Backspace' &&
