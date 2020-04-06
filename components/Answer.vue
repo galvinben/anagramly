@@ -95,8 +95,7 @@ export default {
         event.target.parentElement.nextElementSibling &&
         event.key !== 'Tab' &&
         event.key !== 'Backspace' &&
-        event.key !== 'Shift' &&
-        event.target.value !== ''
+        event.key !== 'Shift'
       ) {
         this.$emit(
           'focusNextNotDisabled',
@@ -122,8 +121,7 @@ export default {
         event.key !== 'Backspace' &&
         event.key !== 'ArrowLeft' &&
         event.key !== 'ArrowRight' &&
-        event.key !== 'Shift' &&
-        event.which === '229'
+        event.key !== 'Shift'
       ) {
         event.target.value = ''
       }
