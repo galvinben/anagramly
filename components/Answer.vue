@@ -14,10 +14,12 @@
           maxlength="1"
           v-model="word.result[i]"
           :disabled="word.locks[i].locked || complete"
-          @keyup="onKeyUp"
-          @keydown="onKeyDown"
           @focus="onFocus"
           @blur="onBlur"
+          @beforeinput="beforeInput"
+          @input="onInput"
+          @keyup="onKeyUp"
+          @keydown="onKeyDown"
         />
         <div class="_" />
       </div>
@@ -64,24 +66,36 @@ export default {
     },
   },
   methods: {
-    onKeyUp(event) {
+    beforeInput(event) {
       if (
-        [
-          'CapsLock',
-          'Space',
-          'Enter',
-          'Escape',
-          'MetaRight',
-          'MetaLeft',
-          'ControlLeft',
-          'ControlRight',
-          'AltLeft',
-          'AltRight',
-        ].includes(event.key)
+        event.inputType === 'deleteContentBackward' &&
+        event.target.parentElement.previousElementSibling &&
+        (event.target.value == '' || event.target.value == ' ')
       ) {
-        event.preventDefault()
+        this.$emit(
+          'focusPreviousNotDisabled',
+          event.target.parentElement.previousElementSibling.firstElementChild
+        )
         return
       }
+      if (event.inputType === 'insertText' && event.target.value.length) {
+        event.target.value = ''
+      }
+      return
+    },
+    onInput(event) {
+      if (
+        event.inputType === 'insertText' &&
+        event.target.parentElement.nextElementSibling
+      ) {
+        this.$emit(
+          'focusNextNotDisabled',
+          event.target.parentElement.nextElementSibling.firstElementChild
+        )
+      }
+      return
+    },
+    onKeyUp(event) {
       if (event.key === 'ArrowLeft') {
         if (event.target.parentElement.previousElementSibling) {
           this.$emit(
@@ -91,55 +105,19 @@ export default {
         }
         return
       }
-      if (
-        event.target.parentElement.nextElementSibling &&
-        event.key !== 'Tab' &&
-        event.key !== 'Backspace' &&
-        event.key !== 'Shift'
-      ) {
-        this.$emit(
-          'focusNextNotDisabled',
-          event.target.parentElement.nextElementSibling.firstElementChild
-        )
+      if (event.key === 'ArrowRight') {
+        if (event.target.parentElement.nextElementSibling) {
+          this.$emit(
+            'focusNextNotDisabled',
+            event.target.parentElement.nextElementSibling.firstElementChild
+          )
+        }
         return
       }
     },
     onKeyDown(event) {
       event.target.selectionStart = event.target.selectionEnd =
         event.target.value.length
-      if (
-        ['CapsLock', 'Space', 'Enter', 'Escape'].includes(event.code) ||
-        event.ctrlKey ||
-        event.altKey ||
-        event.metaKey
-      ) {
-        event.preventDefault()
-        return
-      }
-      if (
-        event.key !== 'Tab' &&
-        event.key !== 'Backspace' &&
-        event.key !== 'ArrowLeft' &&
-        event.key !== 'ArrowRight' &&
-        event.key !== 'Shift'
-      ) {
-        event.target.value = ''
-      }
-
-      if (
-        event.key === 'Backspace' &&
-        event.target.parentElement.previousElementSibling &&
-        (event.target.value === '' || event.target.value === ' ')
-      ) {
-        this.$emit(
-          'focusPreviousNotDisabled',
-          event.target.parentElement.previousElementSibling.firstElementChild
-        )
-        return
-      }
-      if (event.code === 'Backspace') {
-        return
-      }
     },
     onFocus(event) {
       event.target.nextElementSibling.style.background = 'rgba(0, 0, 0, 0.7)'

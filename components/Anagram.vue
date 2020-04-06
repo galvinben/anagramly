@@ -180,7 +180,6 @@ export default {
       element.focus()
     },
     focusNextNotDisabled(element) {
-      this.test = element.parentElement.nextElementSibling
       if (element.parentElement && element.parentElement.nextElementSibling) {
         if (element.disabled === true) {
           this.focusNextNotDisabled(
