@@ -46,7 +46,7 @@ import Answer from '@/components/Answer'
 import Actions from '@/components/Actions'
 
 export default {
-  props: ['difficulty', 'wordLength'],
+  props: ['wordCount', 'wordLength'],
   components: {
     Face,
     Loading,
@@ -202,8 +202,11 @@ export default {
   },
   async beforeMount() {
     this.loading = true
-    while (this.scrambledLetters.length < this.difficulty * 5) {
-      let data = await this.getRandomWord(this.wordLength)
+    let min = this.wordLength * 2
+    let max = this.wordLength != 6 ? this.wordLength * 2 + 2 : 0
+
+    while (this.words.length < this.wordCount) {
+      let data = await this.getRandomWord(min, max)
       if (!data.word.includes(' ')) {
         this.words.push({
           word: data.word,
@@ -254,6 +257,7 @@ export default {
   box-shadow: 2px 3px rgba(0, 0, 0, 0.3);
   padding: 25px;
   min-width: 400px;
+  max-width: 80vw;
 }
 .question {
   letter-spacing: 4px;
@@ -268,7 +272,7 @@ export default {
 }
 
 .answers {
-  margin: 5rem 0;
+  margin: 7rem 0 3rem 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

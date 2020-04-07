@@ -3,13 +3,11 @@ import axios from 'axios'
 
 const WordsApiMixin = {
   methods: {
-    async getRandomWord(wordLength) {
-      let difficulty
-      if (wordLength > 3) difficulty = `&lettersMin=${wordLength * 2}`
-      else if (wordLength < 3) difficulty = `&lettersMax=${wordLength * 3}`
-      else difficulty = ''
+    async getRandomWord(min, max) {
+      let difficulty =
+        max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : '&lettersMin=${min}'
       return await axios
-        .get(`${process.env.wordsApiUrl}${difficulty}`, {
+        .get(`${process.env.wordsApiUrl}&lettersMin=${difficulty}`, {
           headers: {
             'x-rapidapi-host': process.env.wordsApiHost,
             'x-rapidapi-key': process.env.wordsApiKey,

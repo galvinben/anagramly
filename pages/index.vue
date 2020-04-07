@@ -11,15 +11,15 @@
             <Difficulty :difficulty.sync="wordLength" />
           </div>
           <div class="level">
-            Total Length:
-            <Difficulty :difficulty.sync="difficulty" />
+            Word Count:
+            <Difficulty :difficulty.sync="wordCount" />
           </div>
         </div>
         <div class="button" @click="begin()">Start</div>
       </div>
       <Anagram
         v-if="start"
-        :difficulty="difficulty"
+        :wordCount="wordCount"
         @reset="reset"
         :wordLength="wordLength"
       />
@@ -37,7 +37,7 @@ export default {
   },
   data: () => ({
     start: false,
-    difficulty: 3,
+    wordCount: 3,
     wordLength: 3,
   }),
   methods: {
@@ -46,8 +46,8 @@ export default {
     },
     begin() {
       this.$ga.event({
-        eventCategory: 'difficulty',
-        eventAction: this.difficulty,
+        eventCategory: 'wordCount',
+        eventAction: this.wordCount,
       })
       this.$ga.event({
         eventCategory: 'wordLength',
