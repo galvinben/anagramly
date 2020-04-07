@@ -375,8 +375,7 @@ export default {
   }
 
   .answers {
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
