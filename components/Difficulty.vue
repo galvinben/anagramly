@@ -1,10 +1,33 @@
 <template>
   <div class="wrapper">
-    <div class="button" @click="up()"><fa :icon="['fas', 'caret-left']" /></div>
+    <div
+      :class="difficulty == 6 ? 'button-disabled' : 'button-enabled'"
+      class="button"
+      @click="up()"
+    >
+      <fa :icon="['fas', 'caret-left']" />
+    </div>
 
-    <fa class="face" :key="emotion" :icon="['far', emotion]" />
+    <fa
+      class="face"
+      :style="{
+        color: `rgba(${difficulty > 3 ? difficulty * 25 : 0}, ${
+          difficulty < 3
+            ? difficulty === 2
+              ? difficulty * 30
+              : difficulty * 120
+            : 0
+        }, 0, 0.3)`,
+      }"
+      :key="emotion"
+      :icon="['far', emotion]"
+    />
 
-    <div class="button" @click="down()">
+    <div
+      :class="difficulty == 1 ? 'button-disabled' : 'button-enabled'"
+      class="button"
+      @click="down()"
+    >
       <fa :icon="['fas', 'caret-right']" />
     </div>
   </div>
@@ -26,6 +49,8 @@ export default {
           return 'frown'
         case 5:
           return 'sad-cry'
+        case 6:
+          return 'dizzy'
       }
     },
   },
@@ -33,13 +58,13 @@ export default {
     up() {
       this.$emit(
         'update:difficulty',
-        this.difficulty === 5 ? 1 : this.difficulty + 1
+        this.difficulty === 6 ? 6 : this.difficulty + 1
       )
     },
     down() {
       this.$emit(
         'update:difficulty',
-        this.difficulty === 1 ? 5 : this.difficulty - 1
+        this.difficulty === 1 ? 1 : this.difficulty - 1
       )
     },
   },
@@ -57,7 +82,6 @@ export default {
 }
 .face {
   font-size: 30px;
-  color: rgba(70, 63, 36, 0.781);
 }
 
 .button {
@@ -69,15 +93,22 @@ export default {
   color: rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   font-size: 1.5rem;
+}
+
+.button-enabled {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.button:hover {
+.button-enabled:hover {
   cursor: pointer;
   animation: hover 0.3s forwards;
 }
 
-.button:active {
+.button-disabled {
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.button-enabled:active {
   animation: unhover 0.1s forwards;
 }
 
