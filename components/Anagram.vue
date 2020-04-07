@@ -10,6 +10,7 @@
         :style="cardWidth"
         title="Anagramly"
       >
+        <img class="trump" src="@/static/trump.png" v-if="type==='trump'" />
         <div class="question">
           <div v-for="(letter, i) in sortedWords" :key="i">
             <h2 :class="letterTypedClass(letter)">{{ letter.letter }}</h2>
@@ -277,6 +278,7 @@ export default {
   padding: 25px;
   min-width: 400px;
   max-width: 80vw;
+  z-index: 3;
 }
 .question {
   letter-spacing: 4px;
@@ -355,6 +357,11 @@ export default {
 
 .slide-fade-leave-to {
   transform: translateX(1000px);
+}
+.trump {
+  position: absolute;
+  z-index: 0;
+  margin-top: -55px;
 }
 
 @media screen and (max-width: 700px) {
