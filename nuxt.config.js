@@ -20,7 +20,7 @@ export default {
       },
     ],
   },
-  plugins: ['@/plugins/words', '@/plugins/vue-touch'],
+  plugins: ['@/plugins/words', '@/plugins/vue-touch', '@/plugins/trump'],
   modules: [
     [
       'nuxt-fontawesome',
@@ -52,5 +52,6 @@ export default {
     wordsApiKey: process.env.WORDS_API_KEY,
     wordsApiHost: process.env.WORDS_API_HOST,
     wordsApiUrl: process.env.WORDS_API_URL,
+    trumpUrl: process.env.TRUMP_URL,
   },
 }

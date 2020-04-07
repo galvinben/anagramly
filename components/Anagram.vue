@@ -16,8 +16,9 @@
           </div>
         </div>
         <div class="answers">
-          <div v-for="word in answers" :key="word.id">
-            <div class="answer">
+          <div v-for="word in wordsMap" :key="word.id">
+            <div v-if="word.sentence" class="sentence">{{ word.word }}</div>
+            <div v-else class="answer">
               <Answer
                 :word="word"
                 @focusPreviousNotDisabled="focusPreviousNotDisabled"
@@ -27,13 +28,7 @@
             </div>
           </div>
         </div>
-        <Actions
-          @scramble="scramble"
-          @clear="clear"
-          @reset="reset"
-          :loading="loading"
-          :win="win"
-        />
+        <Actions @scramble="scramble" @clear="clear" @reset="reset" :loading="loading" :win="win" />
       </div>
     </transition>
   </div>
@@ -56,14 +51,17 @@ export default {
   data: () => ({
     scrambledLetters: [],
     words: [],
-    answers: [],
+    wordsMap: [],
     loading: false,
     setUp: false,
-    swiped: false,
+    swiped: false
   }),
   computed: {
+    type() {
+      return this.wordCount === 7 && this.wordLength === 7 ? 'trump' : '';
+    },
     lettersTyped() {
-      return this.answers.map((answer) => answer.result).join('')
+      return this.wordsMap.map((answer) => answer.result).join('')
     },
     sortedWords() {
       let typed = this.lettersTyped
@@ -83,12 +81,12 @@ export default {
       })
     },
     cardWidth() {
-      if (window.innerWidth > 700) {
+      if (window.innerWidth > 700 && this.type != 'trump') {
         return `width: ${this.scrambledLetters.length * 1.9}rem`
       } else return 'width: 80vw'
     },
     win() {
-      return this.answers.filter((answer) => !answer.win).length === 0
+      return this.wordsMap.filter((answer) => !answer.win).length === 0
     },
   },
   methods: {
@@ -106,7 +104,14 @@ export default {
       timeout = window.setTimeout(shuffle, time)
     },
     calculateAnswers() {
-      this.answers = this.words.map((word, index) => {
+      this.wordsMap = this.words.map((word, index) => {
+        if(word.sentence) {
+          return {
+            id: index+1,
+            sentence: true,
+            word: word.word,
+          }
+        }
         return {
           id: index + 1,
           answer: word.word.toLowerCase().split(''),
@@ -117,11 +122,12 @@ export default {
           typing: false,
           win: false,
           definition: word.definition,
+
         }
       })
     },
     clear() {
-      this.answers = this.answers.map((answer) => {
+      this.wordsMap = this.wordsMap.map((answer) => {
         if (answer.result.join('').toLowerCase() !== answer.answer.join('')) {
           answer.result = []
         }
@@ -202,21 +208,31 @@ export default {
   },
   async beforeMount() {
     this.loading = true
-    let min = this.wordLength * 2
-    let max = this.wordLength != 6 ? this.wordLength * 2 + 2 : 0
-
-    while (this.words.length < this.wordCount) {
-      let data = await this.getRandomWord(min, max)
-      if (!data.word.includes(' ')) {
+    console.log(this.type)
+    let freshWords
+    if(this.type === 'trump'){
+       freshWords = await this.getTrumpQuote()
+    } else {
+      let min = this.wordLength == 7 ? 1 : this.wordLength * 2
+      let max = this.wordLength != 6 ? this.wordLength == 7 ? 2 : this.wordLength * 2 + 2 : 0
+       freshWords = await this.getRandomWords(min, max, this.wordCount === 7 ? 1 : this.wordCount)
+    }
+    freshWords.forEach((word) => {
+      if(word.sentence) {
         this.words.push({
-          word: data.word,
-          definition: data.results
-            ? data.results[0].definition
+          word: word.word,
+          sentence: true
+        })
+      } else {
+        this.words.push({
+          word: word.word,
+          definition: word.results
+            ? word.results[0].definition
             : 'No definition found...',
         })
-        this.scrambledLetters.push(...data.word)
+        this.scrambledLetters.push(...word.word)
       }
-    }
+    })
     this.loading = false
     this.scramble()
     this.calculateAnswers()
@@ -228,12 +244,12 @@ export default {
       eventAction: 'new',
     })
     let typeTimeout
-    for (let i in this.answers) {
-      document.getElementById(this.answers[i].id).onkeydown = () => {
+    for (let i in this.wordsMap) {
+      document.getElementById(this.wordsMap[i].id).onkeydown = () => {
         clearTimeout(typeTimeout)
-        this.answers[i].typing = true
+        this.wordsMap[i].typing = true
         typeTimeout = window.setTimeout(
-          () => (this.answers[i].typing = false),
+          () => (this.wordsMap[i].typing = false),
           300
         )
       }
@@ -277,11 +293,20 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+}
+
+.sentence {
+  font-size: 2rem;
+  margin-top: 2.25rem;
+  padding: 0.4rem;
 }
 
 .answer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 0.5rem;
 }
 
 .statuses-face {
@@ -335,6 +360,10 @@ export default {
     min-width: 80vw;
   }
 
+  .sentence {
+    margin-top: -0.5rem;
+  }
+
   .answers {
     margin-top: 2.5rem;
     margin-bottom: 1rem;
@@ -342,13 +371,6 @@ export default {
     align-items: center;
     justify-content: center;
     margin-left: 2rem;
-  }
-
-  .answer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 2rem;
   }
 
   .slide-fade-enter {

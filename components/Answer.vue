@@ -154,9 +154,10 @@ export default {
 
 <style scoped>
 .answer-wrap {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 .answer-input {
   margin: 10px;

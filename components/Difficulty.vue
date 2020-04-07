@@ -9,6 +9,7 @@
     </div>
 
     <fa
+      v-if="difficulty < 7"
       class="face"
       :style="{
         color: `rgba(${difficulty > 3 ? difficulty * 25 : 0}, ${
@@ -22,6 +23,7 @@
       :key="emotion"
       :icon="['far', emotion]"
     />
+    <img v-else src="@/static/trump.png" class="trump" />
 
     <div
       :class="difficulty == 1 ? 'button-disabled' : 'button-enabled'"
@@ -58,7 +60,7 @@ export default {
     up() {
       this.$emit(
         'update:difficulty',
-        this.difficulty === 6 ? 6 : this.difficulty + 1
+        this.difficulty === 7 ? 7 : this.difficulty + 1
       )
     },
     down() {
@@ -79,9 +81,15 @@ export default {
   justify-content: space-between;
   margin-top: 20px;
   margin-bottom: 30px;
+  height: 50px;
 }
 .face {
   font-size: 30px;
+}
+
+.trump {
+  height: 50px;
+  margin-top: -10px;
 }
 
 .button {

@@ -1,12 +1,7 @@
 <template>
   <div class="face-container">
     <transition name="slide-fade" mode="out-in">
-      <fa
-        class="face"
-        :class="faceClass"
-        :key="emotion"
-        :icon="['far', emotion]"
-      />
+      <fa class="face" :class="faceClass" :key="emotion" :icon="['far', emotion]" />
     </transition>
   </div>
 </template>
@@ -99,6 +94,7 @@ export default {
 .face-container {
   display: flex;
   justify-content: center;
+  margin-top: -0.7em;
 }
 
 .face {
@@ -115,23 +111,16 @@ export default {
 }
 
 .slide-fade-enter {
-  transform: translateX(-40px);
+  transform: translateY(-40px);
 }
 
 .slide-fade-leave-to {
-  transform: translateX(40px);
+  transform: translateY(40px);
 }
 
 @media screen and (max-width: 700px) {
   .face-container {
-    margin-top: -2em;
-  }
-  .slide-fade-enter {
-    transform: translateY(-40px);
-  }
-
-  .slide-fade-leave-to {
-    transform: translateY(40px);
+    margin-top: -0.4em;
   }
 }
 
