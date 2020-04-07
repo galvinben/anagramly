@@ -1,12 +1,11 @@
 <template>
-  <div class="container">
-    <nuxt />
-  </div>
+  <nuxt />
 </template>
 
 <style>
 html {
   font-size: 13px;
+  background-color: rgb(212, 178, 85);
 }
 * {
   margin: 0;
@@ -24,14 +23,5 @@ h2 {
 }
 h3 {
   font-size: 2rem;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgb(212, 178, 85);
 }
 </style>

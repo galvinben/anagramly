@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <transition name="slide-fade" mode="out-in">
       <div v-if="!start && !website" class="card">
         <div class="line" />
@@ -68,6 +68,14 @@ export default {
 </script>
 
 <style scoped>
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -158,7 +166,7 @@ export default {
 }
 
 .website-link {
-  position: absolute;
+  position: fixed;
   bottom: 3px;
   right: 10vw;
 }
@@ -170,6 +178,8 @@ export default {
 
 @media screen and (max-width: 700px) {
   .card {
+    align-self: start;
+    margin-top: 2rem;
     width: 80vw;
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <transition name="slide-fade" mode="out-in">
       <Loading class="loading" v-if="loading" />
       <div
@@ -365,7 +365,14 @@ export default {
 }
 
 @media screen and (max-width: 700px) {
+  .container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
   .card {
+    margin-top: 3rem;
+    align-self: start;
     height: auto;
     min-width: 80vw;
   }
