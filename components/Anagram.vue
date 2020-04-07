@@ -263,7 +263,7 @@ export default {
   letter-spacing: 4px;
   text-transform: uppercase;
   font-weight: 500;
-  height: 50px;
+  height: auto;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -272,7 +272,7 @@ export default {
 }
 
 .answers {
-  margin: 7rem 0 3rem 0;
+  margin: 3rem 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
