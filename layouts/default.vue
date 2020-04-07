@@ -11,8 +11,9 @@ html {
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Inconsolata', monospace;
+  font-family: "Inconsolata", monospace;
   font-size: 1rem;
+  user-select: none;
 }
 
 h1 {
