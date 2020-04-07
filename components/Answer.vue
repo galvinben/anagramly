@@ -67,6 +67,10 @@ export default {
   },
   methods: {
     beforeInput(event) {
+      if (event.data === " ") {
+        event.preventDefault()
+        return
+      }
       if (
         event.inputType === 'deleteContentBackward' &&
         event.target.parentElement.previousElementSibling &&
@@ -86,6 +90,7 @@ export default {
     onInput(event) {
       if (
         event.inputType === 'insertText' &&
+        event.data !== " " &&
         event.target.parentElement.nextElementSibling
       ) {
         this.$emit(
