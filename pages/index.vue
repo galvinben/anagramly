@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="slide-fade" mode="out-in">
-      <div v-if="!start" class="card">
+      <div v-if="!start && !website" class="card">
         <div class="line" />
         <div class="title">anagramly</div>
         <div class="line" />
@@ -18,27 +18,35 @@
         <div class="button" @click="begin()">Start</div>
       </div>
       <Anagram
-        v-if="start"
+        v-if="start && !website"
         :wordCount="wordCount"
         @reset="reset"
         :wordLength="wordLength"
       />
+      <Website v-if="website" />
     </transition>
+    <div v-if="!website" class="website-link">
+      Made by
+      <a class="website-href" @click="website=true">Ben Galvin</a>
+    </div>
   </div>
 </template>
 
 <script>
 import Anagram from '@/components/Anagram'
 import Difficulty from '@/components/Difficulty'
+import Website from '@/components/Website'
 export default {
   components: {
     Anagram,
     Difficulty,
+    Website
   },
   data: () => ({
     start: false,
     wordCount: 3,
     wordLength: 3,
+    website: false
   }),
   methods: {
     reset() {
@@ -73,7 +81,7 @@ export default {
 }
 
 .title {
-  font-family: 'Cormorant', serif;
+  font-family: "Cormorant", serif;
   font-size: 6rem;
   margin-top: -1.6rem;
   color: rgba(0, 0, 0, 0.5);
@@ -147,6 +155,17 @@ export default {
 
 .slide-fade-leave-to {
   transform: translateX(1000px);
+}
+
+.website-link {
+  position: absolute;
+  bottom: 3px;
+  right: 10vw;
+}
+
+.website-href:hover {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 700px) {
