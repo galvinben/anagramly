@@ -21,7 +21,7 @@ const Trump = {
           })
         let words = response.data.value.split(' ')
         quote = words.map((word, i) => {
-          if ((i > 0 || i + 1 < words.length) && word.length > 1) {
+          if ((i > 0 || i + 1 < words.length) && word.length > 3) {
             let predecessors = [
               'of',
               'for',
@@ -40,12 +40,12 @@ const Trump = {
               'has',
             ]
             if (predecessors.includes(words[i - 1])) {
-              solveable = true
               return { word, sentence: false }
             }
           }
           return { word, sentence: true }
         })
+        solveable = quote.filter((word) => !word.sentence).length > 1
       }
       return quote
     },
