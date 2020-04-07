@@ -39,7 +39,10 @@ const Trump = {
               'almost',
               'has',
             ]
-            if (predecessors.includes(words[i - 1])) {
+            if (
+              predecessors.includes(words[i - 1]) &&
+              !/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(word)
+            ) {
               return { word, sentence: false }
             }
           }
