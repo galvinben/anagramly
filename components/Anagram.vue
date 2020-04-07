@@ -81,7 +81,10 @@ export default {
       })
     },
     cardWidth() {
-      if (window.innerWidth > 700 && this.type != 'trump') {
+      if (window.innerWidth > 700) {
+        if(this.type == 'trump') {
+          return `width: ${this.wordsMap.length * 3}rem`
+        }
         return `width: ${this.scrambledLetters.length * 1.9}rem`
       } else return 'width: 80vw'
     },

@@ -31,11 +31,13 @@ const Trump = {
               'your',
               'greatly',
               'his',
+              'her',
               'my',
               'people',
               'the',
               'a',
               'almost',
+              'has',
             ]
             if (predecessors.includes(words[i - 1])) {
               solveable = true
