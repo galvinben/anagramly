@@ -17,6 +17,7 @@ exports.handler = async (event, context) => {
           },
         })
         .then(function (response) {
+          console.log(resonse)
           return response.data
         })
         .catch(function (error) {
@@ -26,6 +27,7 @@ exports.handler = async (event, context) => {
         freshWords.push(data)
       }
     }
+    console.log(freshWords)
     return { statusCode: 200, body: freshWords }
   } catch (e) {
     this.error = e.response
