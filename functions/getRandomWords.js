@@ -26,7 +26,7 @@ exports.handler = function (event, context) {
         freshWords.push(data.wo)
       }
     }
-    return JSON.stringify({ words: freshWords })
+    return { statusCode: 200, body: freshWords }
   } catch (e) {
     this.error = e.response
     this.response = '—'
