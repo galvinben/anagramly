@@ -2,7 +2,7 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 export default {
   head: {
-    title: 'Anagramly',
+    title: 'Anagramly - A word game - solve anagrams for fun!',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial scale=1' },

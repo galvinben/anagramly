@@ -3,7 +3,7 @@
     <transition name="slide-fade" mode="out-in">
       <div v-if="!start && !website" class="card">
         <div class="line" />
-        <div class="title">anagramly</div>
+        <h1 class="title">anagramly</h1>
         <div class="line" />
         <div class="levels">
           <div class="level">
@@ -91,6 +91,7 @@ export default {
 .title {
   font-family: "Cormorant", serif;
   font-size: 6rem;
+  font-weight: 200;
   margin-top: -1.6rem;
   color: rgba(0, 0, 0, 0.5);
 }
