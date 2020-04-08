@@ -6,7 +6,18 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial scale=1' },
-      { hid: 'description', name: 'description', content: 'Meta description' },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content:
+          'anagram, anagram game, word game, word scramble, word search, wordsearch, bananagrams, anagram puzzle, word puzzle, free word games',
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'An online game where you solve multiple anagrams at varying levels of difficulty',
+      },
     ],
     link: [
       {
