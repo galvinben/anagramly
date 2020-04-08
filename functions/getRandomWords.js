@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
     max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : `&lettersMin=${min}`
 
   let freshWords = []
-  for (let i = 0; i + 1 < wordCount; i++) {
+  for (let i = 0; i + 1 <= wordCount; i++) {
     await axios
       .get(process.env.WORDS_API_URL + params, {
         headers: {
