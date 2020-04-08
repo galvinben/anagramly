@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 exports.handler = async (event, context) => {
   let min = event.queryStringParameters.min
   let max = event.queryStringParameters.max
