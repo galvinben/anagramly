@@ -1,4 +1,4 @@
-import axios from 'axios'
+axios = require('axios')
 
 exports.handler = async (event, context) => {
   let min = event.queryStringParameters.min
