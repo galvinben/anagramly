@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
     let freshWords = []
     while (freshWords.length < wordCount) {
       let data = await axios
-        .get(`${process.env.WORDS_API_URL}{params}`, {
+        .get(`${process.env.WORDS_API_URL}${params}`, {
           headers: {
             'x-rapidapi-host': process.env.WORDS_API_HOST,
             'x-rapidapi-key': process.env.WORDS_API_KEY,
@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
       }
     }
     console.log(freshWords)
-    return { statusCode: 200, body: process.env.WORDS_API_URL }
+    return { statusCode: 200, body: { words: freshWords } }
   } catch (e) {
     this.error = e.response
     this.response = '—'
