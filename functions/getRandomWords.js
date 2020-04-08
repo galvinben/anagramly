@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
       }
     }
     console.log(freshWords)
-    return { statusCode: 200, body: JSON.stringify({ words: freshWords }) }
+    return { statusCode: 200, body: freshWords[0].word }
   } catch (e) {
     this.error = e.response
     this.response = '—'
