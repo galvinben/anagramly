@@ -1,5 +1,4 @@
 exports.handler = function (event, context) {
-
   let min = event.queryStringParameters.min
   let max = event.queryStringParameters.max
 
@@ -7,10 +6,10 @@ exports.handler = function (event, context) {
 
   try {
     let params =
-          max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : `&lettersMin=${min}`
+      max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : `&lettersMin=${min}`
     let freshWords = []
     while (freshWords.length < wordCount) {
-      let data = await axios
+      let data = axios
         .get(`${process.env.WORDS_API_URL}{params}`, {
           headers: {
             'x-rapidapi-host': process.env.WORDS_API_HOST,
@@ -27,8 +26,8 @@ exports.handler = function (event, context) {
         freshWords.push(data.wo)
       }
     }
-    return JSON.stringify({words: freshWords})
-  } catch(_) {
+    return JSON.stringify({ words: freshWords })
+  } catch (_) {
     this.error = e.response
     this.response = '—'
   }
