@@ -8,33 +8,26 @@ exports.handler = async (event, context) => {
   console.log(process.env.WORDS_API_URL)
   console.log(process.env.WORDS_API_HOST)
   console.log(process.env.WORDS_API_KEY)
-  try {
-    let params =
-      max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : `&lettersMin=${min}`
-    let freshWords = []
-    while (freshWords.length < wordCount) {
-      let data = await axios
-        .get(process.env.WORDS_API_URL + params, {
-          headers: {
-            'x-rapidapi-host': process.env.WORDS_API_HOST,
-            'x-rapidapi-key': process.env.WORDS_API_KEY,
-          },
-        })
-        .then(function (response) {
-          console.log(response)
-          return response.data
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-      if (!data.word.includes(' ')) {
-        freshWords.push(data)
-      }
-    }
-    console.log(freshWords)
-    return { statusCode: 200, body: { words: freshWords } }
-  } catch (e) {
-    this.error = e.response
-    this.response = '—'
+  let params =
+    max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : `&lettersMin=${min}`
+
+  let freshWords = []
+  for (let i = 0; i + 1 < wordCount; i++) {
+    console.log(process.env.WORDS_API_URL + params)
+    await axios
+      .get(process.env.WORDS_API_URL + params, {
+        headers: {
+          'x-rapidapi-host': process.env.WORDS_API_HOST,
+          'x-rapidapi-key': process.env.WORDS_API_KEY,
+        },
+      })
+      .then(function (response) {
+        console.log(response)
+        freshWords.push(response.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   }
+  return { statusCode: 200, body: { words: freshWords } }
 }
