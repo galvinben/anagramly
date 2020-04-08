@@ -49,9 +49,6 @@ export default {
     ],
   ],
   env: {
-    wordsApiKey: process.env.WORDS_API_KEY,
-    wordsApiHost: process.env.WORDS_API_HOST,
-    wordsApiUrl: process.env.WORDS_API_URL,
     trumpUrl: process.env.TRUMP_URL,
   },
 }

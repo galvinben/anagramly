@@ -3,30 +3,15 @@ import axios from 'axios'
 
 const WordsApiMixin = {
   methods: {
-    async getRandomWords(min, max, wordCount) {
-      let difficulty =
-        max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : '&lettersMin=${min}'
-      let freshWords = []
-      while (freshWords.length < wordCount) {
-        let data = await axios
-          .get(`${process.env.wordsApiUrl}&lettersMin=${difficulty}`, {
-            headers: {
-              'x-rapidapi-host': process.env.wordsApiHost,
-              'x-rapidapi-key': process.env.wordsApiKey,
-            },
-          })
-          .then(function (response) {
-            return response.data
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-        console.log(data)
-        if (!data.word.includes(' ') && !data.word.includes('.')) {
-          freshWords.push(data)
-        }
+    async getWords(min, max, wordCount) {
+      try {
+        const res = await axios.$get(
+          `/.netlify/functions/getRandomWords?min=${min}&max=${max}&wordCount=${wordCount}`
+        )
+        return res.words
+      } catch (e) {
+        return ['sorry...', 'I', 'cannot', 'connect'])
       }
-      return freshWords
     },
   },
 }

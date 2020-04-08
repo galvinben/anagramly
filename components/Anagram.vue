@@ -223,7 +223,7 @@ export default {
     } else {
       let min = this.wordLength == 7 ? 1 : this.wordLength * 2
       let max = this.wordLength != 6 ? this.wordLength == 7 ? 2 : this.wordLength * 2 + 2 : 0
-       freshWords = await this.getRandomWords(min, max, this.wordCount === 7 ? 1 : this.wordCount)
+       freshWords = await this.getWords(min, max, this.wordCount === 7 ? 1 : this.wordCount)
     }
     freshWords.forEach((word) => {
       if(word.sentence) {
