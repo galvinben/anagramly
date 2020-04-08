@@ -31,5 +31,5 @@ exports.handler = async (event, context) => {
         console.log(error)
       })
   }
-  return { statusCode: 200, body: { words: freshWords } }
+  return { statusCode: 200, body: JSON.stringify({ words: freshWords }) }
 }
