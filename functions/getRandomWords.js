@@ -27,7 +27,7 @@ exports.handler = function (event, context) {
       }
     }
     return JSON.stringify({ words: freshWords })
-  } catch (_) {
+  } catch (e) {
     this.error = e.response
     this.response = '—'
   }
