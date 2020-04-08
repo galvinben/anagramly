@@ -23,8 +23,7 @@ export function handler (event, context) {
         .catch(function (error) {
           console.log(error)
         })
-      console.log(data)
-      if (!data.word.includes(' ') && !data.word.includes('.')) {
+      if (!data.word.includes(' ')) {
         freshWords.push(data)
       }
     }

@@ -8,9 +8,30 @@ const WordsApiMixin = {
         const res = await axios.$get(
           `/.netlify/functions/getRandomWords?min=${min}&max=${max}&wordCount=${wordCount}`
         )
+        console.log(res)
         return res.words
       } catch (e) {
-        return ['sorry...', 'I', 'cannot', 'connect']
+        return [
+          {
+            word: 'sorry...',
+            results: [
+              {
+                definition:
+                  'Example: "I am just so sorry that the words API is not connecting"',
+              },
+            ],
+          },
+          { word: 'I', results: [{ definition: 'meaning me... Ben' }] },
+          {
+            word: 'cannot',
+            results: [
+              {
+                definition: 'I CANNOT be bothered to write another definition',
+              },
+            ],
+          },
+          { word: 'connect', results: [{ definition: 'I am sorry ok.' }] },
+        ]
       }
     },
   },
