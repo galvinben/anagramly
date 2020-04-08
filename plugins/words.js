@@ -10,7 +10,7 @@ const WordsApiMixin = {
         )
         return res.words
       } catch (e) {
-        return ['sorry...', 'I', 'cannot', 'connect'])
+        return ['sorry...', 'I', 'cannot', 'connect']
       }
     },
   },
