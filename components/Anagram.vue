@@ -216,7 +216,6 @@ export default {
   },
   async beforeMount() {
     this.loading = true
-    console.log(this.type)
     let freshWords
     if(this.type === 'trump'){
        freshWords = await this.getTrumpQuote()
