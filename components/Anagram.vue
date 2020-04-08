@@ -132,12 +132,10 @@ export default {
     },
     clear() {
       this.wordsMap = this.wordsMap.map((answer) => {
-        console.log(answer)
         if (answer.result && answer.answer && answer.result.join('').toLowerCase() !== answer.answer.join('')) {
           answer.result = answer.result.map((letter, i) => {
             return answer.locks[i].locked ? letter : ' '
           })
-          console.log(answer.result)
         }
         return answer
       })

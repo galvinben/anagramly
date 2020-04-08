@@ -8,7 +8,6 @@ const WordsApiMixin = {
         const res = await axios.get(
           `/.netlify/functions/getRandomWords?min=${min}&max=${max}&wordCount=${wordCount}`
         )
-        console.log(res)
         return res.data.words
       } catch (e) {
         return [
