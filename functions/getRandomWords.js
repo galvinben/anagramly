@@ -1,4 +1,4 @@
-exports.handler = function (event, context) {
+exports.handler = async (event, context) => {
   let min = event.queryStringParameters.min
   let max = event.queryStringParameters.max
 
@@ -9,7 +9,7 @@ exports.handler = function (event, context) {
       max > 0 ? `&lettersMin=${min}&lettersMax=${max}` : `&lettersMin=${min}`
     let freshWords = []
     while (freshWords.length < wordCount) {
-      let data = axios
+      let data = await axios
         .get(`${process.env.WORDS_API_URL}{params}`, {
           headers: {
             'x-rapidapi-host': process.env.WORDS_API_HOST,
@@ -23,7 +23,7 @@ exports.handler = function (event, context) {
           console.log(error)
         })
       if (!data.word.includes(' ')) {
-        freshWords.push(data.wo)
+        freshWords.push(data)
       }
     }
     return { statusCode: 200, body: freshWords }
