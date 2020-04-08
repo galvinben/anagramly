@@ -230,12 +230,12 @@ export default {
         })
       } else {
         this.words.push({
-          word: word.word,
+          word: word.word.replace(' ', '-'),
           definition: word.results
             ? word.results[0].definition
             : 'No definition found...',
         })
-        this.scrambledLetters.push(...word.word)
+        this.scrambledLetters.push(...word.word.replace(' ', '-'))
       }
     })
     this.loading = false
