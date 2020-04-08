@@ -23,7 +23,7 @@
       :key="emotion"
       :icon="['far', emotion]"
     />
-    <img v-else src="@/static/trump.png" class="trump" />
+    <img v-else src="@/assets/trump.png" class="trump" />
 
     <div
       :class="difficulty == 1 ? 'button-disabled' : 'button-enabled'"

@@ -10,7 +10,7 @@
         :style="cardWidth"
         title="Anagramly"
       >
-        <img class="trump" src="@/static/trump.png" v-if="type==='trump'" />
+        <img class="trump" src="@/assets/trump.png" v-if="type==='trump'" />
         <div class="question">
           <div v-for="(letter, i) in sortedWords" :key="i">
             <h2 :class="letterTypedClass(letter)">{{ letter.letter }}</h2>
