@@ -1,4 +1,4 @@
-export function handler (event, context) {
+exports.handler = function (event, context) {
 
   let min = event.queryStringParameters.min
   let max = event.queryStringParameters.max
@@ -24,7 +24,7 @@ export function handler (event, context) {
           console.log(error)
         })
       if (!data.word.includes(' ')) {
-        freshWords.push(data)
+        freshWords.push(data.wo)
       }
     }
     return JSON.stringify({words: freshWords})
