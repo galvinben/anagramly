@@ -9,7 +9,7 @@ const WordsApiMixin = {
           `/.netlify/functions/getRandomWords?min=${min}&max=${max}&wordCount=${wordCount}`
         )
         console.log(res)
-        return res.body
+        return res.body.words
       } catch (e) {
         return [
           {
