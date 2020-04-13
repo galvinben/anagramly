@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import axios from 'axios'
+// import axios from 'axios'
 
 const Trump = {
   methods: {
@@ -13,10 +13,10 @@ const Trump = {
               Accept: '*/*',
             },
           })
-          .then(function (response) {
+          .then(function(response) {
             return response
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error)
           })
         let words = response.data.value.split(' ')
