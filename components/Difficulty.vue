@@ -9,7 +9,7 @@
     </div>
 
     <fa
-      v-if="difficulty < 7"
+      v-show="difficulty < 7"
       class="face"
       :style="{
         color: `rgba(${difficulty > 3 ? difficulty * 25 : 0}, ${
@@ -23,7 +23,7 @@
       :key="emotion"
       :icon="['far', emotion]"
     />
-    <img v-else src="@/assets/trump.png" class="trump" />
+    <img v-show="difficulty == 7" src="@/assets/trump.png" class="trump" />
 
     <div
       :class="difficulty == 1 ? 'button-disabled' : 'button-enabled'"
