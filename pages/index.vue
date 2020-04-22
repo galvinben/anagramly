@@ -38,8 +38,8 @@
       data-message="Thank you for playing! Support me by buying me a coffee!"
       data-color="#FF813F"
       data-position="right"
-      data-x_margin="18"
-      data-y_margin="18"
+      data-x_margin="22"
+      data-y_margin="26"
     ></script>
   </div>
 </template>
