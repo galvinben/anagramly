@@ -29,6 +29,18 @@
       Made by
       <a class="website-href" @click="website=true">Ben Galvin</a>
     </div>
+
+    <script
+      data-name="BMC-Widget"
+      src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+      data-id="bengalvin"
+      data-description="Support me on Buy me a coffee!"
+      data-message="Thank you for playing! Support me by buying me a coffee!"
+      data-color="#FF813F"
+      data-position="right"
+      data-x_margin="18"
+      data-y_margin="18"
+    ></script>
   </div>
 </template>
 
@@ -168,13 +180,26 @@ export default {
 
 .website-link {
   position: fixed;
-  bottom: 3px;
-  right: 10vw;
+  bottom: 4px;
+  left: 2vw;
+  display: flex;
+}
+
+.website-href {
+  color: rgba(0, 0, 0, 0.6);
+  margin-left: 5px;
 }
 
 .website-href:hover {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.2);
   cursor: pointer;
+}
+
+.support {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 0.5em;
+  align-self: center;
+  margin-left: 5px;
 }
 
 @media screen and (max-width: 700px) {
